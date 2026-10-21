@@ -22,7 +22,21 @@ Toutes les touches sont modifiables dans *Options > Contrôles > Nyx Client*.
 
 1. Installer [Fabric Loader](https://fabricmc.net/use/) pour Minecraft 26.3.
 2. Télécharger [Fabric API](https://modrinth.com/mod/fabric-api) (version 26.3) dans `.minecraft/mods`.
-3. Récupérer `nyx-client-x.y.z.jar` : onglet **Actions** > dernier build vert > artefact `nyx-client`, et le mettre dans `.minecraft/mods`.
+3. Télécharger `nyx-client-x.y.z.jar` depuis la [dernière release](https://github.com/voidsponge/Nyx-Client/releases/latest) et le mettre dans `.minecraft/mods`.
+
+## Branches et releases
+
+```
+develop ──●──●──●───────●──●──►   le travail au quotidien (build à chaque push)
+           \             \
+main ───────●─────────────●────►  une PR develop → main = une release
+          v0.1.0        v0.2.0
+```
+
+1. On travaille sur `develop` (ou une branche qui part de `develop`).
+2. Avant de publier : augmenter `version` dans `gradle.properties`.
+3. Ouvrir une PR `develop` → `main`. La CI vérifie que le build passe et que la version n'existe pas déjà.
+4. Au merge, `release.yml` compile le jar et publie la release `vX.Y.Z` avec le jar attaché.
 
 ## Développer
 
