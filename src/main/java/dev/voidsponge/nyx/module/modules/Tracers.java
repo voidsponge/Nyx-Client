@@ -1,6 +1,7 @@
 package dev.voidsponge.nyx.module.modules;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.voidsponge.nyx.module.Category;
 import dev.voidsponge.nyx.module.Module;
 import dev.voidsponge.nyx.module.ModuleManager;
 import dev.voidsponge.nyx.render.NyxRenderTypes;
@@ -26,7 +27,7 @@ public class Tracers extends Module {
 	private static final int LINE_ALPHA = 0xC0;
 
 	public Tracers() {
-		super("Tracers", "Lignes vers les entités proches", "tracers", SDLScancode.SDL_SCANCODE_K);
+		super("Tracers", Category.RENDER, "Lignes vers les entités proches", "tracers", SDLScancode.SDL_SCANCODE_K);
 	}
 
 	public void render(LevelRenderContext context) {

@@ -2,11 +2,29 @@ plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
 
+repositories {
+	// Le maven de Modrinth, pour récupérer Sodium
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+}
+
 dependencies {
 	// Les versions sont dans gradle.properties
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// compileOnly : on compile contre Sodium sans l'imposer au joueur
+	compileOnly("maven.modrinth:sodium:${project.sodium_version}") { transitive = false }
 }
 
 processResources {

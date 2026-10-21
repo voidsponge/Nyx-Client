@@ -14,12 +14,14 @@ public abstract class Module {
 	protected static final Minecraft mc = Minecraft.getInstance();
 
 	private final String name;
+	private final Category category;
 	private final String description;
 	private final KeyMapping key;
 	private boolean enabled;
 
-	protected Module(String name, String description, String id, int defaultScancode) {
+	protected Module(String name, Category category, String description, String id, int defaultScancode) {
 		this.name = name;
+		this.category = category;
 		this.description = description;
 		// La KeyMapping apparaît dans Options > Contrôles, donc le joueur peut la changer.
 		this.key = new KeyMapping("key.nyx." + id, InputConstants.Type.KEYBOARD, defaultScancode, ModuleManager.CATEGORY);
@@ -42,6 +44,10 @@ public abstract class Module {
 
 	public String getName() {
 		return name;
+	}
+
+	public Category getCategory() {
+		return category;
 	}
 
 	public String getDescription() {

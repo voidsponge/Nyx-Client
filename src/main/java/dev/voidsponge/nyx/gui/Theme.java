@@ -8,6 +8,13 @@ public final class Theme {
 	public static final int TEXT = 0xFFFFFFFF;
 	public static final int TEXT_DIM = 0xFFAAAAAA;
 
+	// Menu (ClickGui)
+	public static final int PANEL_HEADER = 0xF00E0E14;
+	public static final int PANEL_BODY = 0xE0161620;
+	public static final int ROW_HOVER = 0x20FFFFFF;
+	public static final int SWITCH_OFF = 0xFF3A3A48;
+	public static final int SHADOW = 0x50000000;
+
 	private Theme() {
 	}
 
@@ -19,6 +26,11 @@ public final class Theme {
 		double t = System.currentTimeMillis() / 1000.0;
 		float k = (float) (Math.sin(t * 2.0 + offset) * 0.5 + 0.5);
 		return lerp(ACCENT_A, ACCENT_B, k);
+	}
+
+	/** Remplace l'alpha (0-255) d'une couleur ARGB. */
+	public static int withAlpha(int color, int alpha) {
+		return (alpha << 24) | (color & 0x00FFFFFF);
 	}
 
 	/** Mélange deux couleurs ARGB, canal par canal. */

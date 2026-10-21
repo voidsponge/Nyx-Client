@@ -1,5 +1,6 @@
 package dev.voidsponge.nyx.module.modules;
 
+import dev.voidsponge.nyx.module.Category;
 import dev.voidsponge.nyx.module.Module;
 import org.lwjgl.sdl.SDLScancode;
 
@@ -11,6 +12,6 @@ import org.lwjgl.sdl.SDLScancode;
  */
 public class Fullbright extends Module {
 	public Fullbright() {
-		super("Fullbright", "Voir dans le noir", "fullbright", SDLScancode.SDL_SCANCODE_N);
+		super("Fullbright", Category.RENDER, "Voir dans le noir", "fullbright", SDLScancode.SDL_SCANCODE_N);
 	}
 }

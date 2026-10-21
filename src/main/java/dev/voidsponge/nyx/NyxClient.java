@@ -1,6 +1,6 @@
 package dev.voidsponge.nyx;
 
-import dev.voidsponge.nyx.gui.ModuleScreen;
+import dev.voidsponge.nyx.gui.ClickGui;
 import dev.voidsponge.nyx.gui.ModuleHud;
 import dev.voidsponge.nyx.module.Module;
 import dev.voidsponge.nyx.module.ModuleManager;
@@ -71,7 +71,7 @@ public class NyxClient implements ClientModInitializer {
 			return;
 		}
 
-		while (GUI_KEY.consumeClick()) client.gui.setScreen(new ModuleScreen());
+		while (GUI_KEY.consumeClick()) client.gui.setScreen(new ClickGui());
 
 		for (Module module : ModuleManager.MODULES) {
 			// consumeClick() renvoie true une fois par appui : c'est le bon outil pour un toggle

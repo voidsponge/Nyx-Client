@@ -54,7 +54,9 @@ Trois mixins :
 2. **Afficher toutes les faces des minerais** : `BlockMixin`. Normalement une face collée à de la pierre n'est pas dessinée (culling).
 3. **Désactiver l'occlusion** : `VisGraphMixin`. Sinon le jeu considère qu'une grotte entourée de pierre est invisible et ne la rend même pas.
 
-Limites (bons exercices) : les liquides et les coffres ont leur propre renderer et restent visibles. Ne marche pas avec Sodium (autre renderer, il faudrait des mixins dédiés).
+**Avec Sodium / Iris (shaders)** : Sodium remplace tout le rendu des chunks, donc les mixins ci-dessus ne sont jamais appelés. Le paquet `mixin/sodium/` refait la même chose sur les classes de Sodium (`BlockRenderer`, `AbstractBlockRenderContext`, `SodiumWorldRenderer`, `LightDataAccess`). Ces mixins sont dans un fichier à part (`nyx.sodium.mixins.json`) et `NyxMixinPlugin` ne les applique que si Sodium est installé : sinon, les classes visées n'existent pas. Dans `build.gradle`, Sodium est en `compileOnly` : on compile contre lui sans l'imposer au joueur.
+
+Limites (bons exercices) : les liquides et les coffres ont leur propre renderer et restent visibles.
 
 ### ESP (`Z`)
 On réutilise l'effet "Glowing" (flèche spectrale) qui dessine déjà un contour à travers les murs :
@@ -82,7 +84,7 @@ Une ligne par entité vivante, du centre de l'écran vers le milieu de l'entité
 En solo, le jeu lance un vrai serveur dans le même processus (l'*integrated server*). Plutôt que de tromper le serveur, on lui demande de nous donner les capacités de vol (`mayfly`) via `mc.getSingleplayerServer()`, puis `onUpdateAbilities()` synchronise le client. Point important : `server.execute(...)` exécute le code **sur le thread du serveur**. Toucher aux objets du serveur depuis le thread client donne des bugs aléatoires.
 
 ### Menu (`Shift droit`) et HUD
-- `ModuleScreen` : un `Screen` avec un `Button` par module. `init()` est rappelé à chaque redimensionnement.
+- `ClickGui` : un `Screen` sans aucun widget Minecraft. Tout est dessiné à la main (`fill`, `text`) et les clics sont gérés dans `mouseClicked` / `mouseReleased`. Un panneau par `Category`, déplaçable, repliable au clic droit ; les interrupteurs sont animés en rapprochant une valeur de sa cible à chaque frame.
 - `ModuleHud` : le watermark en haut à gauche et la liste des modules actifs en haut à droite, triée par largeur, avec un dégradé animé.
 - `Theme` : les couleurs du client au même endroit. `Theme.accent(offset)` mélange deux couleurs avec un sinus du temps : c'est ce qui fait "onduler" le dégradé.
 
