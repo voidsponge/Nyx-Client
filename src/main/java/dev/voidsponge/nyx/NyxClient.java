@@ -4,6 +4,7 @@ import dev.voidsponge.nyx.gui.ModuleScreen;
 import dev.voidsponge.nyx.gui.ModuleHud;
 import dev.voidsponge.nyx.module.Module;
 import dev.voidsponge.nyx.module.ModuleManager;
+import dev.voidsponge.nyx.render.NyxRenderTypes;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
@@ -31,6 +32,9 @@ public class NyxClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		// 0. Charger nos pipelines de rendu (ESP à travers les murs) avant la première frame
+		NyxRenderTypes.init();
+
 		// 1. Enregistrer les touches pour qu'elles apparaissent dans Options > Contrôles
 		KeyMappingHelper.registerKeyMapping(GUI_KEY);
 		for (Module module : ModuleManager.MODULES) KeyMappingHelper.registerKeyMapping(module.getKey());
@@ -44,6 +48,7 @@ public class NyxClient implements ClientModInitializer {
 		// 4. Rendu 3D dans le monde : avant le terrain translucide (eau, verre...)
 		LevelRenderEvents.BEFORE_TRANSLUCENT_TERRAIN.register(context -> {
 			if (ModuleManager.BLOCK_ESP.isEnabled()) ModuleManager.BLOCK_ESP.render(context);
+			if (ModuleManager.TRACERS.isEnabled()) ModuleManager.TRACERS.render(context);
 		});
 	}
 

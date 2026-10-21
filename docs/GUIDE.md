@@ -63,12 +63,28 @@ On réutilise l'effet "Glowing" (flèche spectrale) qui dessine déjà un contou
 
 Le rendu moderne sépare **extraction** (copier les données de l'entité dans un `RenderState`) et **dessin**. On modifie l'extraction, c'est le plus stable.
 
+### Block ESP (`B`)
+Les *block entities* sont les blocs qui stockent des données (inventaire d'un coffre, minuteur d'un spawner...). Chaque chunk les garde dans une `Map` privée : `ChunkAccessAccessor` est un mixin `@Accessor` qui l'expose.
+
+Pour dessiner, on utilise l'événement `LevelRenderEvents.BEFORE_TRANSLUCENT_TERRAIN` de Fabric API :
+1. on décale la `PoseStack` de `-caméra` (le monde est dessiné relativement à la caméra) ;
+2. `submitCustomGeometry(poseStack, renderType, (pose, buffer) -> ...)` nous donne un buffer où ajouter des sommets ;
+3. `RenderUtil.filledBox` (6 quads) puis `RenderUtil.outlinedBox` (12 lignes).
+
+**Voir à travers les murs** : un `RenderType` s'appuie sur un `RenderPipeline` (shader + réglages GPU). Dans `NyxRenderTypes`, on copie les pipelines de debug de Minecraft en changeant le test de profondeur en `CompareOp.ALWAYS_PASS` : le GPU dessine nos boîtes même si un bloc est devant.
+
+### Tracers (`K`)
+Une ligne par entité vivante, du centre de l'écran vers le milieu de l'entité. Deux détails :
+- la ligne part un peu **devant** la caméra (`getViewVector`), sinon elle commencerait pile dans l'œil et serait invisible ;
+- `entity.getPosition(partialTick)` interpole entre la position du tick précédent et l'actuelle. Le jeu tourne à 20 ticks/s mais l'écran à 60+ FPS : sans ça, les lignes sautilleraient.
+
 ### Fly (`V`)
 En solo, le jeu lance un vrai serveur dans le même processus (l'*integrated server*). Plutôt que de tromper le serveur, on lui demande de nous donner les capacités de vol (`mayfly`) via `mc.getSingleplayerServer()`, puis `onUpdateAbilities()` synchronise le client. Point important : `server.execute(...)` exécute le code **sur le thread du serveur**. Toucher aux objets du serveur depuis le thread client donne des bugs aléatoires.
 
 ### Menu (`Shift droit`) et HUD
 - `ModuleScreen` : un `Screen` avec un `Button` par module. `init()` est rappelé à chaque redimensionnement.
-- `ModuleHud` : la liste des modules actifs en haut à gauche.
+- `ModuleHud` : le watermark en haut à gauche et la liste des modules actifs en haut à droite, triée par largeur, avec un dégradé animé.
+- `Theme` : les couleurs du client au même endroit. `Theme.accent(offset)` mélange deux couleurs avec un sinus du temps : c'est ce qui fait "onduler" le dégradé.
 
 ## 4. Le garde-fou "solo uniquement"
 Dans `NyxClient.onTick` : si `!client.hasSingleplayerServer()`, tous les modules sont coupés. Nyx est un projet d'apprentissage, pas un client pour serveurs.
@@ -78,4 +94,5 @@ Dans `NyxClient.onTick` : si `!client.hasSingleplayerServer()`, tous les modules
 2. **Facile** : rendre la liste des blocs X-Ray configurable dans le menu.
 3. **Moyen** : sauvegarder l'état des modules et leur config dans un fichier JSON (`FabricLoader.getInstance().getConfigDir()`).
 4. **Moyen** : cacher les liquides en X-Ray (mixin sur `LiquidBlockRenderer`).
-5. **Avancé** : un "Tracers" (lignes vers les entités) avec l'événement de rendu du monde de Fabric API.
+5. **Moyen** : un "Nametags" qui affiche nom + vie au-dessus des entités.
+6. **Avancé** : un "Storage ESP" qui garde en mémoire les coffres déjà ouverts et les grise.

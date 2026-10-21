@@ -13,8 +13,11 @@ Mod client **Fabric** pour **Minecraft 26.3**, écrit pour apprendre le modding 
 | Fullbright | `N` | Tout est éclairé | Mixin `@Inject` + `@Shadow`, lightmap |
 | X-Ray | `X` | Seuls les minerais sont visibles | Rendu des chunks, face culling, occlusion |
 | ESP | `Z` | Contour coloré des entités à travers les murs | `@ModifyReturnValue`, render states |
+| Block ESP | `B` | Boîtes colorées sur coffres, barils, shulkers, spawners, visibles à travers les murs | Événement de rendu du monde, `RenderPipeline` custom |
+| Tracers | `K` | Lignes vers les entités proches (même couleurs que l'ESP) | Rendu de lignes, interpolation (partial tick) |
 | Fly | `V` | Vol en survie | Integrated server, threads client/serveur |
 | Menu | `Shift droit` | Activer/désactiver les modules à la souris | `Screen`, `Button` |
+| HUD | | Watermark + liste des modules actifs avec dégradé animé | `HudElementRegistry`, rendu 2D |
 
 Toutes les touches sont modifiables dans *Options > Contrôles > Nyx Client*.
 
@@ -58,7 +61,8 @@ Le fichier [docs/GUIDE.md](docs/GUIDE.md) explique chaque fichier, chaque mixin 
 src/main/java/dev/voidsponge/nyx/
 ├── NyxClient.java         point d'entrée, touches, tick, garde-fou solo
 ├── module/                Module (base), ModuleManager, et les modules
-├── gui/                   menu (ModuleScreen) et HUD (ModuleHud)
+├── gui/                   menu (ModuleScreen), HUD (ModuleHud), couleurs (Theme)
+├── render/                dessin 3D (RenderUtil) et pipelines "à travers les murs"
 └── mixin/                 les injections dans le code du jeu
 ```
 
