@@ -36,7 +36,7 @@ main ───────●─────────────●───
           v0.1.0        v0.2.0
 ```
 
-1. On travaille sur `develop` (ou une branche qui part de `develop`).
+1. On travaille sur `develop` (ou une branche qui part de `develop`). Chaque push publie un jar de test dans la pré-release [`dev`](https://github.com/voidsponge/Nyx-Client/releases/tag/dev), remplacée à chaque fois.
 2. Avant de publier : augmenter `version` dans `gradle.properties`.
 3. Ouvrir une PR `develop` → `main`. La CI vérifie que le build passe et que la version n'existe pas déjà.
 4. Au merge, `release.yml` compile le jar et publie la release `vX.Y.Z` avec le jar attaché.
