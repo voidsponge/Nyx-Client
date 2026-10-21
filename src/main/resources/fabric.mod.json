@@ -1,0 +1,23 @@
+{
+	"schemaVersion": 1,
+	"id": "nyx",
+	"version": "${version}",
+	"name": "Nyx Client",
+	"description": "Client de démo pour apprendre le modding Fabric (solo uniquement) : fullbright, x-ray, ESP, fly.",
+	"authors": ["voidsponge"],
+	"contact": {
+		"sources": "https://github.com/voidsponge/Nyx-Client"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": ["dev.voidsponge.nyx.NyxClient"]
+	},
+	"mixins": ["nyx.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

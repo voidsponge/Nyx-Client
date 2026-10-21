@@ -1,0 +1,20 @@
+{
+	"required": true,
+	"package": "dev.voidsponge.nyx.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"AltModelBlockRendererImplMixin",
+		"BlockMixin",
+		"EntityRendererMixin",
+		"LightmapMixin",
+		"MinecraftMixin",
+		"ModelBlockRendererMixin",
+		"VisGraphMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
