@@ -32,6 +32,33 @@ jobs:
           name: nyx-client
           path: build/libs/*.jar
 
+  # Chaque push sur develop met à jour la pré-release "dev" avec le jar : on teste sans faire de vraie release.
+  dev-build:
+    if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download jar
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: nyx-client
+          path: jars
+      - name: Publish dev pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SHORT="${GITHUB_SHA::7}"
+          mkdir out
+          for f in jars/*.jar; do
+            case "$f" in *-sources.jar) ;; *) cp "$f" "out/nyx-client-dev-$SHORT.jar" ;; esac
+          done
+          gh release delete dev --repo "$GITHUB_REPOSITORY" --cleanup-tag --yes || true
+          gh release create dev out/*.jar --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "Dev build ($SHORT)" \
+            --notes "Build de test de la branche develop (commit $SHORT). Remplacé à chaque push. Pas une release stable."
+
   # Une PR vers main = une release : on vérifie que la version n'a pas déjà été publiée.
   version-check:
     if: github.event_name == 'pull_request' && github.base_ref == 'main'
