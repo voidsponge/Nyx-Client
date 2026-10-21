@@ -54,8 +54,9 @@ public class ModuleScreen extends Screen {
 	@Override
 	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
 		super.extractRenderState(graphics, mouseX, mouseY, delta);
-		int top = this.height / 2 - (ModuleManager.MODULES.size() * SPACING) / 2 - 20;
-		graphics.centeredText(this.font, this.title.getString(), this.width / 2, top, 0xFFB388FF);
+		int top = this.height / 2 - (ModuleManager.MODULES.size() * SPACING) / 2 - 24;
+		graphics.centeredText(this.font, this.title.getString(), this.width / 2, top - 4, Theme.accent(0));
+		graphics.centeredText(this.font, "solo uniquement \u2022 Échap pour fermer", this.width / 2, top + 8, Theme.TEXT_DIM);
 	}
 
 	/** Le jeu continue de tourner pendant que le menu est ouvert. */

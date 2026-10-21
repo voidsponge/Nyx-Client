@@ -8,6 +8,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -21,6 +23,9 @@ import org.lwjgl.sdl.SDLScancode;
  */
 public class NyxClient implements ClientModInitializer {
 	public static final String MOD_ID = "nyx";
+	public static final String VERSION = FabricLoader.getInstance().getModContainer(MOD_ID)
+		.map(mod -> mod.getMetadata().getVersion().getFriendlyString())
+		.orElse("dev");
 
 	private static final KeyMapping GUI_KEY = new KeyMapping("key.nyx.gui", SDLScancode.SDL_SCANCODE_RSHIFT, ModuleManager.CATEGORY);
 
@@ -35,6 +40,11 @@ public class NyxClient implements ClientModInitializer {
 
 		// 3. Élément de HUD : la liste des modules actifs en haut à gauche
 		HudElementRegistry.addLast(Identifier.fromNamespaceAndPath(MOD_ID, "module_list"), ModuleHud::extract);
+
+		// 4. Rendu 3D dans le monde : avant le terrain translucide (eau, verre...)
+		LevelRenderEvents.BEFORE_TRANSLUCENT_TERRAIN.register(context -> {
+			if (ModuleManager.BLOCK_ESP.isEnabled()) ModuleManager.BLOCK_ESP.render(context);
+		});
 	}
 
 	private static void onTick(Minecraft client) {

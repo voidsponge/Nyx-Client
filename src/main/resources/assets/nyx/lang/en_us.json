@@ -4,5 +4,6 @@
 	"key.nyx.fullbright": "Toggle Fullbright",
 	"key.nyx.xray": "Toggle X-Ray",
 	"key.nyx.esp": "Toggle ESP",
-	"key.nyx.flight": "Toggle Flight"
+	"key.nyx.flight": "Toggle Flight",
+	"key.nyx.block_esp": "Toggle Block ESP"
 }

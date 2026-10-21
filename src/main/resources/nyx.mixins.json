@@ -5,6 +5,7 @@
 	"client": [
 		"AltModelBlockRendererImplMixin",
 		"BlockMixin",
+		"ChunkAccessAccessor",
 		"EntityRendererMixin",
 		"LightmapMixin",
 		"MinecraftMixin",
