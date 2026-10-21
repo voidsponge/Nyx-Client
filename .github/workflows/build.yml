@@ -2,6 +2,7 @@ name: build
 
 on:
   push:
+    branches: [develop]
   pull_request:
   workflow_dispatch:
 
@@ -30,3 +31,21 @@ jobs:
         with:
           name: nyx-client
           path: build/libs/*.jar
+
+  # Une PR vers main = une release : on vérifie que la version n'a pas déjà été publiée.
+  version-check:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Check version bump
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v$(grep '^version=' gradle.properties | cut -d= -f2)"
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::error::La release $TAG existe déjà. Augmente 'version' dans gradle.properties."
+            exit 1
+          fi
+          echo "Cette PR publiera $TAG"
