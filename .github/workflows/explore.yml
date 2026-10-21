@@ -25,15 +25,12 @@ jobs:
       - name: Dump
         working-directory: src-mc
         run: |
-          f() { echo "=================== $1"; cat "$(find . -path "*/$1" | head -1)"; }
-          f net/minecraft/client/renderer/rendertype/RenderTypes.java | grep -nE "public static|RenderType\.create|RenderSetup" | head -120
-          f net/minecraft/client/renderer/rendertype/RenderType.java | grep -nE "public|static" | head -60
-          f net/minecraft/client/renderer/rendertype/RenderSetup.java | grep -nE "public|static" | head -60
-          f net/minecraft/client/renderer/RenderPipelines.java | grep -nE "LINES|DEBUG|FILLED|QUADS|SNIPPET" | head -80
-          f net/minecraft/client/renderer/RenderPipelines.java | grep -nE -A12 "LINES = |DEBUG_FILLED_BOX = " | head -80
-          f net/minecraft/client/renderer/ShapeRenderer.java | head -120
-          echo "=================== VertexConsumer"; grep -nE "default|VertexConsumer [a-z]+\(" $(find . -name VertexConsumer.java) | head -40
-          echo "=================== Camera getters"; grep -nE "public .*\(" $(find . -path "*/client/Camera.java") | head -40
-          echo "=================== BlockEntity iteration"; grep -nE "getBlockEntities|blockEntities\(" -r net/minecraft/world/level/chunk/LevelChunk.java | head
-          echo "=================== ClientChunkCache"; grep -nE "public .*\(" $(find . -name ClientChunkCache.java) | head -30
-          echo "=================== Lightmap"; grep -nE "public|void render" $(find . -path "*/renderer/Lightmap.java") | head -20
+          RP=$(find . -path "*/client/renderer/RenderPipelines.java")
+          RT=$(find . -path "*/rendertype/RenderTypes.java")
+          echo "=== snippets"; sed -n '35,60p;310,375p' $RP
+          echo "=== lines pipelines"; sed -n '1020,1070p' $RP
+          echo "=== register"; grep -n "static .* register(" -A6 $RP
+          echo "=== RenderTypes lines/debug"; grep -nE "lines|LINES|debug|DEBUG" $RT | head -60
+          echo "=== RenderTypes debugFilledBox def"; grep -nE -B2 -A8 "DEBUG_FILLED_BOX =|RenderType debugFilledBox|RenderType lines\(" $RT | head -60
+          echo "=== ShapeRenderer"; cat $(find . -name ShapeRenderer.java) | head -150
+          echo "=== Pipeline jar classes"; find ~/.gradle -name "*.jar" | xargs -I{} sh -c 'unzip -l {} 2>/dev/null | grep -q "renderpearl/api/pipeline/RenderPipeline.class" && echo {}' | head -3
