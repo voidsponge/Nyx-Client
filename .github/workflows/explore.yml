@@ -19,7 +19,7 @@ jobs:
       - run: ./gradlew genSources -q
       - name: Extract sources
         run: |
-          JAR=$(find ~/.gradle .gradle -name "*minecraft*sources.jar" 2>/dev/null | head -1)
+          JAR=$(realpath "$(find ~/.gradle .gradle -name "*minecraft*sources.jar" 2>/dev/null | head -1)")
           echo "JAR=$JAR"
           mkdir src-mc && cd src-mc && unzip -q "$JAR"
       - name: Dump
