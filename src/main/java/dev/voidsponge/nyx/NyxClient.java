@@ -56,7 +56,7 @@ public class NyxClient implements ClientModInitializer {
 			return;
 		}
 
-		while (GUI_KEY.consumeClick()) client.setScreen(new ModuleScreen());
+		while (GUI_KEY.consumeClick()) client.gui.setScreen(new ModuleScreen());
 
 		for (Module module : ModuleManager.MODULES) {
 			// consumeClick() renvoie true une fois par appui : c'est le bon outil pour un toggle
