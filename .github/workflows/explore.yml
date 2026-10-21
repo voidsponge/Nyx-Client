@@ -36,4 +36,4 @@ jobs:
           echo "=================== Camera getters"; grep -nE "public .*\(" $(find . -path "*/client/Camera.java") | head -40
           echo "=================== BlockEntity iteration"; grep -nE "getBlockEntities|blockEntities\(" -r net/minecraft/world/level/chunk/LevelChunk.java | head
           echo "=================== ClientChunkCache"; grep -nE "public .*\(" $(find . -name ClientChunkCache.java) | head -30
-          echo "=================== LevelRenderContext"; true
+          echo "=================== Lightmap"; grep -nE "public|void render" $(find . -path "*/renderer/Lightmap.java") | head -20
