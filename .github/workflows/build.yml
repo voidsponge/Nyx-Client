@@ -37,6 +37,10 @@ jobs:
     if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-24.04
+    # Deux runs en même temps se marcheraient dessus (suppression / recréation de la release)
+    concurrency:
+      group: dev-release
+      cancel-in-progress: false
     permissions:
       contents: write
     steps:

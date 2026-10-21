@@ -1,5 +1,6 @@
 package dev.voidsponge.nyx.gui;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.voidsponge.nyx.NyxClient;
 import dev.voidsponge.nyx.module.Category;
 import dev.voidsponge.nyx.module.Module;
@@ -115,20 +116,22 @@ public class ClickGui extends Screen {
 	@Override
 	public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
 		double mx = click.x(), my = click.y();
+		// Attention : depuis le passage à SDL, les numéros de boutons ont changé (gauche = 1, plus 0).
+		// On utilise donc les constantes du jeu plutôt que des nombres en dur.
 		// On parcourt les panneaux pour trouver celui sous la souris
 		for (Panel panel : PANELS.values()) {
 			if (panel.isOverHeader(mx, my)) {
-				if (click.button() == 0) {
+				if (click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
 					dragging = panel;
 					dragOffsetX = mx - panel.x;
 					dragOffsetY = my - panel.y;
-				} else if (click.button() == 1) {
+				} else if (click.button() == InputConstants.MOUSE_BUTTON_RIGHT) {
 					panel.collapsed = !panel.collapsed;
 				}
 				return true;
 			}
 			Module module = panel.moduleAt(mx, my);
-			if (module != null && click.button() == 0) {
+			if (module != null && click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
 				module.toggle();
 				return true;
 			}
