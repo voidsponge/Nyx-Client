@@ -27,10 +27,13 @@ jobs:
         run: |
           RP=$(find . -path "*/client/renderer/RenderPipelines.java")
           RT=$(find . -path "*/rendertype/RenderTypes.java")
-          echo "=== snippets"; sed -n '35,60p;310,375p' $RP
-          echo "=== lines pipelines"; sed -n '1020,1070p' $RP
-          echo "=== register"; grep -n "static .* register(" -A6 $RP
-          echo "=== RenderTypes lines/debug"; grep -nE "lines|LINES|debug|DEBUG" $RT | head -60
-          echo "=== RenderTypes debugFilledBox def"; grep -nE -B2 -A8 "DEBUG_FILLED_BOX =|RenderType debugFilledBox|RenderType lines\(" $RT | head -60
-          echo "=== ShapeRenderer"; cat $(find . -name ShapeRenderer.java) | head -150
-          echo "=== Pipeline jar classes"; find ~/.gradle -name "*.jar" | xargs -I{} sh -c 'unzip -l {} 2>/dev/null | grep -q "renderpearl/api/pipeline/RenderPipeline.class" && echo {}' | head -3
+          PL=$(find . -path "*/pipeline/RenderPipeline.java" | head -1)
+          echo "=== snippets"; sed -n '310,362p' $RP
+          echo "=== see-through/depth in RenderPipelines"; grep -nE "SEE_THROUGH|NO_DEPTH|ALWAYS_PASS|DepthStencilState" $RP | head -30
+          echo "=== lines pipelines"; sed -n '1026,1068p' $RP
+          echo "=== RenderTypes LINES"; sed -n '472,494p' $RT
+          echo "=== RenderPipeline builder ($PL)"; grep -nE "public .*Builder with[A-Za-z]+\(|public RenderPipeline build|public static .*builder" $PL | head -40
+          echo "=== DepthStencilState"; cat $(find . -name DepthStencilState.java | head -1) | grep -nE "public|record|static" | head -20
+          echo "=== CompareOp"; cat $(find . -name CompareOp.java | head -1) | head -30
+          echo "=== VertexConsumer lineWidth"; grep -nE "LineWidth|lineWidth" $(find . -name VertexConsumer.java) | head
+          echo "=== DefaultVertexFormat"; grep -nE "public static final VertexFormat" $(find . -name DefaultVertexFormat.java) | head -20
