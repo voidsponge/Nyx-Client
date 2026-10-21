@@ -1,5 +1,6 @@
 package dev.voidsponge.nyx.module.modules;
 
+import dev.voidsponge.nyx.module.Category;
 import dev.voidsponge.nyx.module.Module;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +21,7 @@ public class Flight extends Module {
 	private static final float FLY_SPEED = 0.1f; // 0.05 = vitesse créatif normale
 
 	public Flight() {
-		super("Fly", "Voler en survie", "flight", SDLScancode.SDL_SCANCODE_V);
+		super("Fly", Category.MOVEMENT, "Voler en survie", "flight", SDLScancode.SDL_SCANCODE_V);
 	}
 
 	@Override

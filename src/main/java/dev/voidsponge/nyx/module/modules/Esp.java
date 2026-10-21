@@ -1,5 +1,6 @@
 package dev.voidsponge.nyx.module.modules;
 
+import dev.voidsponge.nyx.module.Category;
 import dev.voidsponge.nyx.module.Module;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +17,7 @@ import org.lwjgl.sdl.SDLScancode;
  */
 public class Esp extends Module {
 	public Esp() {
-		super("ESP", "Voir les entités à travers les murs", "esp", SDLScancode.SDL_SCANCODE_Z);
+		super("ESP", Category.RENDER, "Voir les entités à travers les murs", "esp", SDLScancode.SDL_SCANCODE_Z);
 	}
 
 	public boolean shouldHighlight(Entity entity) {

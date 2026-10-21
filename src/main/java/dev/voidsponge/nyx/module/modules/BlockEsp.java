@@ -2,6 +2,7 @@ package dev.voidsponge.nyx.module.modules;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.voidsponge.nyx.mixin.ChunkAccessAccessor;
+import dev.voidsponge.nyx.module.Category;
 import dev.voidsponge.nyx.module.Module;
 import dev.voidsponge.nyx.render.NyxRenderTypes;
 import dev.voidsponge.nyx.render.RenderUtil;
@@ -34,7 +35,7 @@ public class BlockEsp extends Module {
 	private static final int LINE_ALPHA = 0xE0;
 
 	public BlockEsp() {
-		super("Block ESP", "Surligner coffres, shulkers et spawners", "block_esp", SDLScancode.SDL_SCANCODE_B);
+		super("Block ESP", Category.RENDER, "Surligner coffres, shulkers et spawners", "block_esp", SDLScancode.SDL_SCANCODE_B);
 	}
 
 	/** Couleur selon le type de bloc, ou 0 pour l'ignorer. */

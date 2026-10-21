@@ -1,0 +1,15 @@
+{
+	"required": false,
+	"package": "dev.voidsponge.nyx.mixin.sodium",
+	"compatibilityLevel": "JAVA_25",
+	"plugin": "dev.voidsponge.nyx.mixin.NyxMixinPlugin",
+	"client": [
+		"AbstractBlockRenderContextMixin",
+		"SodiumBlockRendererMixin",
+		"SodiumLightDataAccessMixin",
+		"SodiumWorldRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 0
+	}
+}

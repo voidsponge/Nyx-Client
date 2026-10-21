@@ -1,5 +1,6 @@
 package dev.voidsponge.nyx.module.modules;
 
+import dev.voidsponge.nyx.module.Category;
 import dev.voidsponge.nyx.module.Module;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -33,7 +34,7 @@ public class Xray extends Module {
 	);
 
 	public Xray() {
-		super("X-Ray", "Ne voir que les minerais", "xray", SDLScancode.SDL_SCANCODE_X);
+		super("X-Ray", Category.WORLD, "Ne voir que les minerais", "xray", SDLScancode.SDL_SCANCODE_X);
 	}
 
 	public static boolean isVisible(Block block) {

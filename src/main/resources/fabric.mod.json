@@ -13,7 +13,7 @@
 	"entrypoints": {
 		"client": ["dev.voidsponge.nyx.NyxClient"]
 	},
-	"mixins": ["nyx.mixins.json"],
+	"mixins": ["nyx.mixins.json", "nyx.sodium.mixins.json"],
 	"depends": {
 		"fabricloader": ">=0.19.5",
 		"minecraft": "~26.3",
