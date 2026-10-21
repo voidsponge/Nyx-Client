@@ -4,5 +4,7 @@
 	"key.nyx.fullbright": "Activer/désactiver Fullbright",
 	"key.nyx.xray": "Activer/désactiver X-Ray",
 	"key.nyx.esp": "Activer/désactiver ESP",
-	"key.nyx.flight": "Activer/désactiver Fly"
+	"key.nyx.flight": "Activer/désactiver Fly",
+	"key.nyx.block_esp": "Activer/désactiver Block ESP",
+	"key.nyx.tracers": "Activer/désactiver Tracers"
 }
